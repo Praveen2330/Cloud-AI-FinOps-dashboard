@@ -155,17 +155,17 @@ with tab1:
         daily_spend = daily_spend_series(billing_df)
         st.plotly_chart(
             anomaly_timeline(daily_spend, view_df, title="Cloud Spend with Detected Anomaly Deviations"),
-            use_container_width=True,
+            width="stretch",
         )
     with col_t2:
-        st.plotly_chart(anomaly_severity_bar(view_df), use_container_width=True)
+        st.plotly_chart(anomaly_severity_bar(view_df), width="stretch")
 
     if not view_df.empty:
         st.markdown("### Top Anomalous Services by Excess Cost")
         top_anom = view_df.groupby("service_name")["absolute_increase"].sum().reset_index()
         top_anom = top_anom.sort_values("absolute_increase", ascending=False).head(10)
         top_anom["absolute_increase"] = top_anom["absolute_increase"].map(lambda x: f"₹{x:,.2f}")
-        st.dataframe(top_anom, use_container_width=True, hide_index=True)
+        st.dataframe(top_anom, width="stretch", hide_index=True)
 
 with tab2:
     st.markdown("### 🔍 Anomaly Triage & Investigation")
@@ -185,7 +185,7 @@ with tab2:
         display_table["absolute_increase"] = display_table["absolute_increase"].map(lambda x: f"₹{x:,.2f}")
         display_table["pct_increase"] = display_table["pct_increase"].map(lambda x: f"{x:.1f}%")
 
-        st.dataframe(display_table, use_container_width=True, hide_index=True)
+        st.dataframe(display_table, width="stretch", hide_index=True)
 
         st.markdown("#### Update Anomaly Status")
         selected_id = st.selectbox("Select Anomaly ID to Manage", view_df["id"].tolist())

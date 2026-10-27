@@ -162,44 +162,44 @@ with col_left:
     daily = daily_spend_series(filtered_billing)
     st.plotly_chart(
         daily_spend_line(daily, title="Daily Cloud Spending"),
-        use_container_width=True,
+        width="stretch",
     )
 
 with col_right:
     prov_df = filtered_billing.groupby("cloud_provider")["total_cost"].sum().reset_index()
-    st.plotly_chart(provider_pie(prov_df), use_container_width=True)
+    st.plotly_chart(provider_pie(prov_df), width="stretch")
 
 # ── Row 2: Top services + Department ──────────────────────────────────────
 col_left2, col_right2 = st.columns([1, 1])
 
 with col_left2:
     svc_df = top_services(filtered_billing)
-    st.plotly_chart(spend_by_service_bar(svc_df), use_container_width=True)
+    st.plotly_chart(spend_by_service_bar(svc_df), width="stretch")
 
 with col_right2:
     dept_df = filtered_billing.groupby("department")["total_cost"].sum().reset_index()
     st.plotly_chart(
         spend_donut(dept_df, "department", title="Spend by Department"),
-        use_container_width=True,
+        width="stretch",
     )
 
 # ── Row 3: Monthly trend + Cloud vs AI ───────────────────────────────────
 col_left3, col_right3 = st.columns([2, 1])
 
 with col_left3:
-    st.plotly_chart(monthly_trend_by_provider(filtered_billing), use_container_width=True)
+    st.plotly_chart(monthly_trend_by_provider(filtered_billing), width="stretch")
 
 with col_right3:
     st.plotly_chart(
         cloud_vs_ai_chart(kpi["cloud_total"], kpi["ai_total"]),
-        use_container_width=True,
+        width="stretch",
     )
 
 # ── Row 4: Budget vs Actual ───────────────────────────────────────────────
 if not budget_summary.empty:
     st.markdown("## Budget vs Actual (Current Month)")
     top_budgets = budget_summary.nlargest(8, "monthly_budget")
-    st.plotly_chart(budget_vs_actual_chart(top_budgets), use_container_width=True)
+    st.plotly_chart(budget_vs_actual_chart(top_budgets), width="stretch")
 
 # ── Auto-generated insights ───────────────────────────────────────────────
 st.markdown("## 💡 Auto-Generated Insights")

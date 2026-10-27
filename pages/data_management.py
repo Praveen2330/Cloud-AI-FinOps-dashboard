@@ -109,7 +109,7 @@ with tab2:
         try:
             raw_billing_df = pd.read_csv(uploaded_billing_file)
             st.markdown(f"**Preview ({len(raw_billing_df)} rows loaded):**")
-            st.dataframe(raw_billing_df.head(5), use_container_width=True)
+            st.dataframe(raw_billing_df.head(5), width="stretch")
 
             val_res = validate_billing_csv(raw_billing_df)
 
@@ -126,7 +126,7 @@ with tab2:
 
                 if val_res.invalid_count > 0:
                     st.warning(f"{val_res.invalid_count} row(s) failed validation checks.")
-                    st.dataframe(val_res.invalid_rows.head(5), use_container_width=True)
+                    st.dataframe(val_res.invalid_rows.head(5), width="stretch")
                     import_mode = st.radio(
                         "Import Choice",
                         ["Import valid rows only (skip invalid)", "Reject entire file"],
@@ -157,7 +157,7 @@ with tab3:
         try:
             raw_ai_df = pd.read_csv(uploaded_ai_file)
             st.markdown(f"**Preview ({len(raw_ai_df)} rows loaded):**")
-            st.dataframe(raw_ai_df.head(5), use_container_width=True)
+            st.dataframe(raw_ai_df.head(5), width="stretch")
 
             val_ai_res = validate_ai_csv(raw_ai_df)
 

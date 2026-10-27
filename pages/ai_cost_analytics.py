@@ -128,10 +128,10 @@ with tab1:
     col1, col2 = st.columns([2, 1])
     with col1:
         daily_ai = daily_ai_spend(f_ai)
-        st.plotly_chart(ai_daily_line(daily_ai), use_container_width=True)
+        st.plotly_chart(ai_daily_line(daily_ai), width="stretch")
     with col2:
         model_sum = spend_by_model(f_ai)
-        st.plotly_chart(token_usage_bar(model_sum), use_container_width=True)
+        st.plotly_chart(token_usage_bar(model_sum), width="stretch")
 
     st.markdown("### Daily Token Consumption & Expense Log")
     if not daily_ai.empty:
@@ -140,7 +140,7 @@ with tab1:
         display_daily["input_tokens"] = display_daily["input_tokens"].map(lambda x: f"{x:,}")
         display_daily["output_tokens"] = display_daily["output_tokens"].map(lambda x: f"{x:,}")
         display_daily["request_count"] = display_daily["request_count"].map(lambda x: f"{x:,}")
-        st.dataframe(display_daily, use_container_width=True, hide_index=True)
+        st.dataframe(display_daily, width="stretch", hide_index=True)
 
 with tab2:
     st.markdown("### Model-Level Cost & Efficiency Analysis")
@@ -158,7 +158,7 @@ with tab2:
         eff_display["cost_per_1k_tokens"] = eff_display["cost_per_1k_tokens"].map(
             lambda x: f"₹{x:.4f}" if x is not None else "N/A"
         )
-        st.dataframe(eff_display, use_container_width=True, hide_index=True)
+        st.dataframe(eff_display, width="stretch", hide_index=True)
 
     st.markdown("""
     <div class='disclaimer'>
@@ -177,7 +177,7 @@ with tab3:
             app_df_disp = app_df.copy()
             app_df_disp["total_cost"] = app_df_disp["total_cost"].map(lambda x: f"₹{x:,.2f}")
             app_df_disp["request_count"] = app_df_disp["request_count"].map(lambda x: f"{x:,}")
-            st.dataframe(app_df_disp, use_container_width=True, hide_index=True)
+            st.dataframe(app_df_disp, width="stretch", hide_index=True)
 
     with col_b:
         st.markdown("### Spend by Project")
@@ -186,7 +186,7 @@ with tab3:
             proj_df_disp = proj_df.copy()
             proj_df_disp["total_cost"] = proj_df_disp["total_cost"].map(lambda x: f"₹{x:,.2f}")
             proj_df_disp["request_count"] = proj_df_disp["request_count"].map(lambda x: f"{x:,}")
-            st.dataframe(proj_df_disp, use_container_width=True, hide_index=True)
+            st.dataframe(proj_df_disp, width="stretch", hide_index=True)
 
 with tab4:
     st.markdown("### ⚙️ Configurable Token Pricing Assumptions")
@@ -200,7 +200,7 @@ with tab4:
         p_disp = pricing_data[["provider", "model_name", "input_price_per_million", "output_price_per_million", "currency"]].copy()
         p_disp["input_price_per_million"] = p_disp["input_price_per_million"].map(lambda x: f"₹{x:,.2f}")
         p_disp["output_price_per_million"] = p_disp["output_price_per_million"].map(lambda x: f"₹{x:,.2f}")
-        st.dataframe(p_disp, use_container_width=True, hide_index=True)
+        st.dataframe(p_disp, width="stretch", hide_index=True)
 
     st.markdown("#### Update Pricing Rate")
     with st.form("edit_pricing_form"):

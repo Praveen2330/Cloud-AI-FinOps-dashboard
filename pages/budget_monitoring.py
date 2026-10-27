@@ -68,7 +68,7 @@ with st.sidebar:
     all_months = (
         billing_df["billing_date"]
         .dt.to_period("M")
-        .unique()
+        .drop_duplicates()
         .sort_values(ascending=False)
     )
     month_labels = [str(m) for m in all_months]
@@ -158,8 +158,8 @@ if not budget_summary.empty:
 
     with tab1:
         # Overall view
-        st.plotly_chart(budget_vs_actual_chart(budget_summary), use_container_width=True)
-        st.plotly_chart(budget_utilisation_bars(budget_summary), use_container_width=True)
+        st.plotly_chart(budget_vs_actual_chart(budget_summary), width="stretch")
+        st.plotly_chart(budget_utilisation_bars(budget_summary), width="stretch")
 
         # By type breakdown
         for btype in ["provider", "department", "project"]:
@@ -169,9 +169,9 @@ if not budget_summary.empty:
             st.markdown(f"**Budget by {btype.capitalize()}**")
             col_l, col_r = st.columns(2)
             with col_l:
-                st.plotly_chart(budget_vs_actual_chart(sub, title=f"Budget vs Actual by {btype.capitalize()}"), use_container_width=True)
+                st.plotly_chart(budget_vs_actual_chart(sub, title=f"Budget vs Actual by {btype.capitalize()}"), width="stretch")
             with col_r:
-                st.plotly_chart(budget_utilisation_bars(sub, height=250), use_container_width=True)
+                st.plotly_chart(budget_utilisation_bars(sub, height=250), width="stretch")
 
     with tab2:
         # Detailed table
@@ -192,7 +192,7 @@ if not budget_summary.empty:
         st.dataframe(
             display_df[["budget_type","name","monthly_budget","actual_spend",
                          "remaining","utilisation_pct","projected_eom","status"]],
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
 

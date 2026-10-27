@@ -123,15 +123,15 @@ tab1, tab2, tab3, tab4 = st.tabs(
 
 with tab1:
     daily = daily_spend_series(fdf)
-    st.plotly_chart(daily_spend_line(daily, title="Daily Cloud Spending (Filtered)"), use_container_width=True)
+    st.plotly_chart(daily_spend_line(daily, title="Daily Cloud Spending (Filtered)"), width="stretch")
 
 with tab2:
     col_a, col_b = st.columns(2)
     svc_agg = aggregate_by(fdf, "service_name")
-    col_a.plotly_chart(spend_by_service_bar(svc_agg, n=10), use_container_width=True)
+    col_a.plotly_chart(spend_by_service_bar(svc_agg, n=10), width="stretch")
 
     prov_agg = fdf.groupby("cloud_provider")["total_cost"].sum().reset_index()
-    col_b.plotly_chart(provider_pie(prov_agg), use_container_width=True)
+    col_b.plotly_chart(provider_pie(prov_agg), width="stretch")
 
 with tab3:
     dim = st.selectbox("Group by", ["department", "project", "environment", "region", "service_category"])
@@ -139,12 +139,12 @@ with tab3:
     col_x, col_y = st.columns(2)
     col_x.plotly_chart(
         spend_donut(dim_agg, dim, title=f"Spend by {dim.capitalize()}"),
-        use_container_width=True,
+        width="stretch",
     )
     col_y.plotly_chart(
         spend_by_service_bar(dim_agg.rename(columns={dim: "service_name"}),
                              title=f"Spend by {dim.capitalize()}"),
-        use_container_width=True,
+        width="stretch",
     )
 
 with tab4:
@@ -174,7 +174,7 @@ with tab4:
         comp_display["pct_change"]    = comp_display["pct_change"].map(
             lambda x: f"{x:+.1f}%" if x is not None else "N/A"
         )
-        st.dataframe(comp_display, use_container_width=True, hide_index=True)
+        st.dataframe(comp_display, width="stretch", hide_index=True)
 
 # ── Detailed records table ────────────────────────────────────────────────────
 st.markdown("---")
@@ -204,7 +204,7 @@ records_display["total_cost"]  = records_display["total_cost"].map(lambda x: f"�
 if "unit_price" in records_display.columns:
     records_display["unit_price"] = records_display["unit_price"].map(lambda x: f"₹{x:.4f}")
 
-st.dataframe(records_display.head(500), use_container_width=True, hide_index=True)
+st.dataframe(records_display.head(500), width="stretch", hide_index=True)
 st.caption(f"Showing up to 500 of {num_records:,} filtered records.")
 
 # ── Export ────────────────────────────────────────────────────────────────────
@@ -250,4 +250,4 @@ with st.expander("📊 SQL Analytical Summaries"):
 
     result_df = result_df.sort_values("total_cost", ascending=False)
     result_df["total_cost"] = result_df["total_cost"].map(lambda x: f"₹{x:,.2f}")
-    st.dataframe(result_df, use_container_width=True, hide_index=True)
+    st.dataframe(result_df, width="stretch", hide_index=True)

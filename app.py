@@ -241,11 +241,15 @@ with st.sidebar:
 # ---------------------------------------------------------------------------
 
 page_path = PAGES[page_label]
+page_abs_path = str(Path(page_path).resolve())
 
 try:
     with open(page_path, "r") as f:
         code = f.read()
-    exec(compile(code, page_path, "exec"), {"__name__": "__main__"})
+    exec(compile(code, page_abs_path, "exec"), {
+        "__name__": "__main__",
+        "__file__": page_abs_path,
+    })
 except FileNotFoundError:
     st.error(f"Page file not found: `{page_path}`")
     st.info("Use **Data Management** to load sample data, then navigate to other pages.")
